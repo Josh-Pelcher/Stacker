@@ -13,10 +13,16 @@ public class GameActivity extends Activity {
 	 */
 	private GameView gameView;
 	
+	private String player1Name;
+	private String player2Name;
+
+	
 	@Override
 	protected void onCreate(Bundle bundle) {
 		super.onCreate(bundle);
 		setContentView(R.layout.activity_game);
+		player1Name = getIntent().getStringExtra("player1Name");
+		player2Name = getIntent().getStringExtra("player2Name");
 		
 		if(bundle != null) {
 			// We have saved state
@@ -63,6 +69,17 @@ public class GameActivity extends Activity {
 	
 	public void onEndGame(View view) {
 		Intent intent = new Intent(this, FinalScoreActivity.class);
+		intent.putExtra ( "player1Name", player1Name );
+		intent.putExtra ( "player2Name", player2Name );
+		startActivity(intent);
+	}
+	
+	public void onEndGame(int [] scores) {
+		Intent intent = new Intent(this, FinalScoreActivity.class);
+		intent.putExtra ( "player1Name", player1Name );
+		intent.putExtra ( "player2Name", player2Name );
+		intent.putExtra("player1score", scores[0]);
+		intent.putExtra("player2score", scores[1]);
 		startActivity(intent);
 	}
 	
@@ -70,4 +87,5 @@ public class GameActivity extends Activity {
 		gameView = (GameView)this.findViewById(R.id.gameView);
 		gameView.getGame().setBrick();
 	}
+
 }

@@ -5,10 +5,9 @@ import android.graphics.Canvas;
 import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-//import android.view.View;
-import android.widget.ScrollView;
+import android.view.View;
 
-public class GameView extends ScrollView {
+public class GameView extends View {
 
 	private Game game;
 	
@@ -67,5 +66,8 @@ public class GameView extends ScrollView {
 	public void createNewBrick(int weight){
 		game.createNewBrick(weight);
 		this.invalidate();
+	}
+	public void EndGame(){
+		((GameActivity)getContext()).onEndGame(game.getScores());
 	}
 }

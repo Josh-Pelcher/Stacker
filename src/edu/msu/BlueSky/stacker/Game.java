@@ -63,6 +63,24 @@ public class Game {
     private int yOffset = 0;
     
     private int brickHeight = 0;
+    
+    private boolean player1MoveFirst = true;
+    private boolean player1Move = true;
+    
+    private int player1Score;
+    private int player2Score;
+    
+    private float total;
+
+	private float variance;
+
+	private float maxX;
+
+	private float minX;
+
+	private int Tmass;
+
+	private double massPosition;
 
 	public Game(Context c, GameView view){
 		context = c;
@@ -179,20 +197,25 @@ public class Game {
 	
 	private boolean onTouched(float x, float y){
 		Log.i("touched", x+" "+y);
-		Brick topBrick = bricks.get(bricks.size()-1); 
-		if(topBrick.hit(x, y+((float)yOffset/screenHeight), screenWidth, screenHeight, scaleFactor)) {
-            // We hit a piece!
-        	dragging = topBrick;
-        	Log.i("dragging", "dragging set to top brick");
-            lastRelX = x;
-            return true;
-        }
+		if(bricks.size()>0){
+			Brick topBrick = bricks.get(bricks.size()-1); 		
+			if(topBrick.hit(x, y+((float)yOffset/screenHeight), screenWidth, screenHeight, scaleFactor)) {
+	            // We hit a piece!
+	        	dragging = topBrick;
+	        	Log.i("dragging", "dragging set to top brick");
+	            lastRelX = x;
+	            return true;
+	        }
+		}
 		lastRelY = y;
 		return true;
 	}
 	public void createNewBrick(int weight){
 		if(brickIsSet){
 			bricks.add(new Brick(context, (bricks.size()%2==0), weight));
+			if(bricks.size()>1){
+				bricks.get(bricks.size()-1).setX(bricks.get(bricks.size()-2).getX());
+			}
 			Log.i("bricks", "Size: "+bricks.size());
 			brickIsSet = false;
 		}
@@ -208,8 +231,102 @@ public class Game {
 	
 	public void setBrick(){
 		//check balance
-		
+		if(!isBallanced())
+		{
+			EndRound();
+		}
 		brickIsSet = true;
 	}
 	
+	public int getBottomUpTotalMass(int size){
+		for(int ii=1;ii<=size;ii++)
+		{
+			Tmass += bricks.get(ii).getWeight();
+		}
+		return Tmass;
+	}
+
+	public int getTopDownTotalMass(int size){
+		for(int ii=size;ii<bricks.size();ii++)
+		{
+			Tmass += bricks.get(ii).getWeight();
+		}
+		return Tmass;
+	}
+
+	public boolean isBallanced(){
+		if(bricks.size()<=1)
+		{
+			return true;
+		}
+		variance = (bricks.get(0).getBrickWidth()*scaleFactor)/2;
+		Log.i("maxX", Float.toString(maxX));
+		Log.i("minX", Float.toString(minX));
+
+		for(int ii=bricks.size()-1;ii>0;ii--)
+		{
+			int xx = ii;
+			Tmass = getTopDownTotalMass(ii);
+			Log.i("MAssMassMass", Integer.toString(Tmass));
+			maxX = (bricks.get(ii-1).getX()*screenWidth) + variance;
+			minX = (bricks.get(ii-1).getX()*screenWidth) - variance;
+
+			while(xx<bricks.size())
+			{
+				float tempWeight = bricks.get(xx).getWeight();
+				float tempXpos = bricks.get(xx).getX()*screenWidth;
+
+				total += (tempWeight * tempXpos);
+				xx++;
+			}
+			massPosition = (1.0/Tmass)*total;
+			Log.i("total", Float.toString(total));
+			Log.i("total", Float.toString(Tmass));
+			Log.i("total", Double.toString(1.0/Tmass));
+			Log.i("xxxxxxxxxxxx", Double.toString(massPosition));
+
+			if (massPosition > maxX || massPosition < minX)
+			{
+				Log.i("FAilED", "Failfailfailfail");
+				massPosition = 0;
+				return false;
+			}
+
+
+			Tmass = 0;
+			total = 0;
+
+		}
+
+		return true;
+
+	}
+	
+	public void EndRound()
+	{
+		if(player1Move){
+			player2Score++;
+		}
+		else{
+			player1Score++;
+		}
+		if(player1Score>=2 || player2Score>=2){
+			EndGame();
+		}
+		player1Move = !player1Move;
+		player1MoveFirst = !player1MoveFirst;
+		bricks.clear();
+		gameView.invalidate();
+	}
+	
+	public void EndGame(){
+		gameView.EndGame();
+	}
+	
+	public int[] getScores(){
+		int [] scores = new int[2];
+		scores[0] = player1Score;
+		scores[1] = player1Score;
+		return scores;
+	}
 }

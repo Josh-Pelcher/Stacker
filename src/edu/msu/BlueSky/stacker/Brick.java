@@ -96,4 +96,8 @@ public class Brick {
 	public int getHeight(){
 		return brick.getHeight();
 	}
+	
+	public int getBrickWidth(){
+		return brick.getWidth();
+	}
 }
