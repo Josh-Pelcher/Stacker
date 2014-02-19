@@ -20,6 +20,8 @@ public class Game {
 	
 	private final static String WEIGHTS = "Game.weights";
 	
+	private final static int scoreToWin = 5;
+	
 	
 	/**
 	 * Collection of Bricks
@@ -310,7 +312,7 @@ public class Game {
 		else{
 			player1Score++;
 		}
-		if(player1Score>=2 || player2Score>=2){
+		if(player1Score>=scoreToWin || player2Score>=scoreToWin){
 			EndGame();
 		}
 		player1Move = !player1Move;
@@ -326,7 +328,7 @@ public class Game {
 	public int[] getScores(){
 		int [] scores = new int[2];
 		scores[0] = player1Score;
-		scores[1] = player1Score;
+		scores[1] = player2Score;
 		return scores;
 	}
 }

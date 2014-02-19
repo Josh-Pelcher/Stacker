@@ -78,8 +78,8 @@ public class GameActivity extends Activity {
 		Intent intent = new Intent(this, FinalScoreActivity.class);
 		intent.putExtra ( "player1Name", player1Name );
 		intent.putExtra ( "player2Name", player2Name );
-		intent.putExtra("player1score", scores[0]);
-		intent.putExtra("player2score", scores[1]);
+		intent.putExtra("player1Score", scores[0]);
+		intent.putExtra("player2Score", scores[1]);
 		startActivity(intent);
 	}
 	
