@@ -49,13 +49,21 @@
             android:layout_toRightOf="@+id/createUser"
             android:text="@string/Log_in" />
 
+        <CheckBox
+            android:id="@+id/rememberCredentials"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/logIn"
+            android:layout_centerHorizontal="true"
+            android:text="@string/Remember_Credentials" />
+
         <Button
             android:id="@+id/createUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/password"
+            android:layout_alignLeft="@+id/rememberCredentials"
             android:layout_below="@+id/password"
-            android:layout_marginLeft="17dp"
+            android:onClick="onCreateUser"
             android:text="@string/Create_User" />
 
     </RelativeLayout>

@@ -51,28 +51,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.50" >
-
-        <EditText
-            android:id="@+id/editText2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:ems="10"
-            android:inputType="textPassword" />
-
-        <EditText
-            android:id="@+id/username"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/editText2"
-            android:layout_alignLeft="@+id/editText2"
-            android:ems="10"
-            android:inputType="textUri" >
-
-            <requestFocus />
-        </EditText>
+        android:layout_weight="0.68" >
 
         <Button
             android:id="@+id/logIn"
@@ -90,7 +69,37 @@
             android:layout_alignLeft="@+id/editText2"
             android:layout_below="@+id/editText2"
             android:layout_marginLeft="16dp"
+            android:onClick="onCreateUser"
             android:text="@string/Create_User" />
+
+        <EditText
+            android:id="@+id/username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/editText2"
+            android:layout_alignParentTop="true"
+            android:ems="10"
+            android:inputType="textUri" />
+
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/username"
+            android:layout_centerHorizontal="true"
+            android:ems="10"
+            android:inputType="textPassword" >
+
+            <requestFocus />
+        </EditText>
+
+        <CheckBox
+            android:id="@+id/rememberCredentials"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/logIn"
+            android:layout_centerHorizontal="true"
+            android:text="@string/Remember_Credentials" />
 
     </RelativeLayout>
 

@@ -14,7 +14,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_log_in);
 	}
 	
 	public void onStartGame(View view) {
@@ -24,5 +24,11 @@ public class MainActivity extends Activity {
 		intent.putExtra ( "player1Name", player1Name );
 		intent.putExtra ( "player2Name", player2Name );
 		startActivity(intent);
+	}
+	
+	public void onCreateUser(View view) {
+		Intent intent = new Intent(this, CreateUserActivity.class);
+		startActivity(intent);
+		
 	}
 }
